@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Socket.IO chat</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font: 13px Helvetica, Arial;
+        }
+
+        form {
+            background: #000;
+            padding: 3px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        form input {
+            border: 0;
+            padding: 10px;
+            width: 90%;
+            margin-right: .5%;
+        }
+
+        form button {
+            width: 9%;
+            background: rgb(130, 224, 255);
+            border: none;
+            padding: 10px;
+        }
+
+        #messages {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        #messages li {
+            padding: 5px 10px;
+        }
+
+        #messages li:nth-child(odd) {
+            background: #eee;
+        }
+
+        #emojiPickerWrap {
+            margin: 10px 0 0 0;
+        }
+
+        .field {
+            padding: 20px 0;
+        }
+
+        textarea {
+            width: 400px;
+            height: 200px;
+        }
+    </style>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <!-- <link rel="stylesheet" type="text/css" href="/bower_components/jquery-emoji-picker/css/jquery.emojipicker.css">
+<script type="text/javascript" src="/bower_components/jquery-emoji-picker/js/jquery.emojipicker.js"></script> -->
+<link rel="stylesheet" type="text/css" href="/bower_components/jquery-emoji-picker/css/jquery.emojipicker.css">
+<script type="text/javascript" src="/bower_components/jquery-emoji-picker/js/jquery.emojipicker.js"></script>
+
+
+<!-- <link rel="stylesheet" type="text/css" href="/bower_components//jquery-emoji-picker/css/jquery.emojipicker.a.css">
+<script type="text/javascript" src="/bower_components//jquery-emoji-picker/js/jquery.emojis.js"></script> -->
+<link rel="stylesheet" type="text/css" href="/bower_components/jquery-emoji-picker/css/jquery.emojipicker.a.css">
+<script type="text/javascript" src="/bower_components/jquery-emoji-picker/js/jquery.emojis.js"></script>
+</head>
+
+<body>
+    <ul id="messages"></ul>
+    <form action="" id="form1">
+        <input id="m" class="emojiable-option" autocomplete="off" /><button id="b" disabled>Send</button>
+    </form>
+    <script>
+        var socket = io();
+        $(document).ready(function () {
+
+            // for emoji
+            $('#text-custom-trigger').emojiPicker({
+                width: '300px',
+                height: '200px',
+                button: false
+            });
+
+            $('#m').emojiPicker();
+
+            $('#input-custom-size').emojiPicker({
+                width: '300px',
+                height: '200px'
+            });
+
+            $('#input-left-position').emojiPicker({
+                position: 'left'
+            });
+
+            $('#trigger').click(function (e) {
+                e.preventDefault();
+                $('#text-custom-trigger').emojiPicker('toggle');
+            });
+
+            // validation
+            $("#m").keyup(function () {
+                if ($('#m').val().length <= 0) {
+                    $('#b').prop('disabled', true);
+                }
+                else {
+                    $('#b').prop('disabled', false);
+                }
+            });
+
+            // $("#m").keypress(function (e) {
+            //     if (e.which !== 13) {
+            //         typing = true; // we know the user is typing because they have pressed a key but not 'Enter'
+            //         socket.emit("typing", true);
+            //         clearTimeout(timeout);
+            //         timeout = setTimeout(timeoutFunction, 1500);
+            //     } else {
+            //         clearTimeout(timeout); // no need to fire the timeoutFunction twice (as we do it on the next line)
+            //         timeoutFunction(); // probably needs a better name but this will immediately send the necessary `socket.emit('typing', false)` when the enter key is pressed
+            //     }
+            // });
+
+            $('#form1').submit(function () {
+
+                socket.emit('chat message', $('#m').val());
+                $('#m').val('');
+                return false;
+            });
+        });
+        socket.on('chat message', function (msg) {
+            $('#messages').append($('<li>').text(msg));
+            window.scrollTo(0, document.body.scrollHeight);
+        });
+    </script>
+</body>
+
+</html>
