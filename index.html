@@ -69,26 +69,29 @@
     <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
     <!-- <link rel="stylesheet" type="text/css" href="/bower_components/jquery-emoji-picker/css/jquery.emojipicker.css">
 <script type="text/javascript" src="/bower_components/jquery-emoji-picker/js/jquery.emojipicker.js"></script> -->
-<link rel="stylesheet" type="text/css" href="/bower_components/jquery-emoji-picker/css/jquery.emojipicker.css">
-<script type="text/javascript" src="/bower_components/jquery-emoji-picker/js/jquery.emojipicker.js"></script>
+    <link rel="stylesheet" type="text/css" href="/bower_components/jquery-emoji-picker/css/jquery.emojipicker.css">
+    <script type="text/javascript" src="/bower_components/jquery-emoji-picker/js/jquery.emojipicker.js"></script>
 
 
-<!-- <link rel="stylesheet" type="text/css" href="/bower_components//jquery-emoji-picker/css/jquery.emojipicker.a.css">
+    <!-- <link rel="stylesheet" type="text/css" href="/bower_components//jquery-emoji-picker/css/jquery.emojipicker.a.css">
 <script type="text/javascript" src="/bower_components//jquery-emoji-picker/js/jquery.emojis.js"></script> -->
-<link rel="stylesheet" type="text/css" href="/bower_components/jquery-emoji-picker/css/jquery.emojipicker.a.css">
-<script type="text/javascript" src="/bower_components/jquery-emoji-picker/js/jquery.emojis.js"></script>
+    <link rel="stylesheet" type="text/css" href="/bower_components/jquery-emoji-picker/css/jquery.emojipicker.a.css">
+    <script type="text/javascript" src="/bower_components/jquery-emoji-picker/js/jquery.emojis.js"></script>
 </head>
 
 <body>
     <div style="float: left;width: 100%;height: 100%;">
-    <div style=" width: 100%;height: 600px;float: left;overflow: auto;"><ul id="messages"></ul></div>
-    <div style="clear: left;height: 20%;width: 100%">
-    <form action="" id="form1">
-        <input id="m" class="emojiable-option" autocomplete="off" /><button id="b" disabled>Send</button>
-        
-    </form>
-</div>
-</div>
+        <div style=" width: 100%;height: 600px;float: left;overflow: auto;display: flex;
+    flex-direction: column-reverse;">
+            <ul id="messages"></ul>
+        </div>
+        <div style="clear: left;height: 20%;width: 100%">
+            <form action="" id="form1">
+                <input id="m" class="emojiable-option" autocomplete="off" /><button id="b" disabled>Send</button>
+
+            </form>
+        </div>
+    </div>
     <script>
         var socket = io();
         $(document).ready(function () {
@@ -147,6 +150,7 @@
         });
         socket.on('chat message', function (msg) {
             $('#messages').append($('<li>').text(msg));
+            $('#messages')[0].scrollTop = $('#messages')[0].scrollHeight;
             // window.scrollTo(0, document.getElementById("#messages").scrollHeight);
         });
     </script>
