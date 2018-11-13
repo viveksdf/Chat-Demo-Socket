@@ -6,11 +6,15 @@ var path = require('path');
 var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var cors = require('cors');
 // var LocalStorage = require('node-localstorage').LocalStorage;
 //     var localStorage = new LocalStorage('./scratch');
 
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use(cors());
+// parse application/x-www-form-urlencoded
+// parse application/json
+app.use(bodyParser.json())
 // displaying the index.html file
 
 global.nick = ""
@@ -26,7 +30,10 @@ app.get('/', function(req, res){
   
     // localStorage.setItem('nick', req.body.nickname);
     global.nick = req.body.nickname;
-        res.redirect('http://192.168.1.180:3000/chat');
+    console.log(req.body);
+    res.header("Access-Control-Allow-Origin", "*");
+    res.json({data:req.body.nickname});
+        // res.redirect('http://localhost:3000/chat');
   });
 
 
