@@ -18,13 +18,13 @@ app.use(bodyParser.json())
 // displaying the index.html file
 
 global.nick = ""
-path.join(__dirname,'/bower_components/jquery-emoji-picker');
-app.use('/bower_components', express.static(path.join(__dirname, 'bower_components')))
+// path.join(__dirname,'/bower_components/jquery-emoji-picker');
+// app.use('/bower_components', express.static(path.join(__dirname, 'bower_components')))
 
 
-app.get('/', function(req, res){
-    res.sendFile(__dirname + '/login.html');
-  });
+// app.get('/', function(req, res){
+//     res.sendFile(__dirname + '/login.html');
+//   });
 
   app.post('/data', function(req, res) {
   
@@ -37,9 +37,9 @@ app.get('/', function(req, res){
   });
 
 
-app.get('/chat', function(req, res){
-    res.sendFile(__dirname + '/index.html');
-  });
+// app.get('/chat', function(req, res){
+//     res.sendFile(__dirname + '/index.html');
+//   });
 
 
 // var nickname = localStorage.getItem("nick");
